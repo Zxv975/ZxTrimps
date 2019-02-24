@@ -743,10 +743,12 @@ function load(saveString, autoLoad, fromPf) {
 	}
 	//Last version was at least 4.10.0, continue as normal
 	if (compareVersion([4, 10, 2], oldStringVersion)){
-		//check if old version was before 4.10.2 and enable snow
-		if (game.options.menu.showSnow) game.options.menu.showSnow.enabled = 1;
-		addNewSetting("showSnow");
-		if (game.global.spiresCompleted >= 1 && !playerSpire.initialized) playerSpire.init();
+		//Bug fix for a few missing spires
+		if (game.global.spiresCompleted >= 1 && !playerSpire.initialized){
+			playerSpire.init();
+			playerSpire.spirestones = 20;
+			playerSpire.openPopup();
+		}
 	}
 	//End compatibility
 	//Test server only
@@ -5441,7 +5443,7 @@ function buildMapGrid(mapId) {
             text: "",
             name: getRandomBadGuy(map.location, i + 1, map.size, map.level, imports)
 		};
-		if (game.badGuys.Presimpt.locked == 0 && game.options.menu.showSnow.enabled){
+		if (game.badGuys.Presimpt.locked == 0 && game.options.menu.showSnow && game.options.menu.showSnow.enabled){
 			if (map.location == "Void") cell.vm = "CorruptSnow";
 			else cell.vm = "TrimpmasSnow"
 		}
@@ -6472,6 +6474,7 @@ var visualMutations = {
 	},
 	TrimpmasSnow: {
 		active: function() {
+			return false;
 			return (game.options.menu.showSnow.enabled);
 		},
 		pattern: function(currentArray, mutationArray) {
@@ -13190,6 +13193,7 @@ var Fluffy = {
 		this.calculateLevel();
 		this.calculateExp();
 		this.updateExp();
+		if (this.currentLevel >= 1) giveSingleAchieve("Consolation Prize");
 	},
 	updateExp: function(){
 		var expElem = document.getElementById('fluffyExp');
