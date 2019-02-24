@@ -6,7 +6,7 @@ My custom fork of [Trimps](https://github.com/Trimps/Trimps.github.io). The main
 No major gameplay differences will exist on this fork (yet ( ͡° ͜ʖ ͡°)). Changes are only cosmetic.
 
 # Version information: 
-* Current game version: 4.10.4
+* Current game version: 4.10.2
 * Current fork version: 0.0
 
 # Wishlist:
