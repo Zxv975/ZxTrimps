@@ -1,3 +1,4 @@
+// Line 2639 in index
 function prettify(number) {
 	var numberTmp = number;
 	if (!isFinite(number)) return "<span class='icomoon icon-infinity'></span>";
@@ -10,8 +11,8 @@ function prettify(number) {
 	if (base <= 0) return prettifySub(number);
     
     // This part is used for logarithmic notation only
-	var mantissa = 10;
-	var exponent = Math.log(number) / Math.log(logarithmicBase);
+	var mantissa = 10 || game.options.menu;
+	var exponent = Math.log(number) / Math.log(mantissa);
     
 	number /= Math.pow(1000, base);
 	if (number >= 999.5) {
@@ -60,12 +61,7 @@ function prettify(number) {
 	return prettifySub(number) + suffix;
 }
 
-function prettifySub(number){
-	number = parseFloat(number);
-	var floor = Math.floor(number);
-	if (number === floor) // number is an integer, just show it as-is
-		return number;
-	var precision = 3 - floor.toString().length; // use the right number of digits
-
-	return number.toFixed(3 - floor.toString().length);
-}
+// Line 563
+game.options.menu.standardNotation.description = "<p>Swap between Standard Formatting (12.7M, 540B), Engineering Notation (12.7e6, 540e9), Scientific Notation (1.27e7, 5.40e11), Alphabetic Notation (12.7b, 540c), Hybrid Notation (Standard up to e96, then Engineering. Mimics Standard pre 4.6) and Logarithmic Notation (10^7.10, 10^8.73).</p><p><b>Hold Ctrl while clicking to change the precision and the base for Logarithmic Notation.</b></p>"
+// Line 564
+game.options.menu.standardNotation.titles = ["Scientific Notation", "Standard Formatting", "Engineering Notation", "Alphabetic Notation", "Hybrid Notation", "Logarithmic Notation"],

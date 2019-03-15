@@ -1,10 +1,7 @@
-1) Extend prettify
+1) Extend prettify (DONE)
   - Line 2683 in updates.js
-  - 
 2) Extend convertNotationsToNumber
-3) Add to menu
-  - Line 564 in config.js
-  - 
-  description: "Swap between Standard Formatting (12.7M, 540B), Engineering Notation (12.7e6, 540e9), Scientific Notation (1.27e7, 5.40e11), Alphabetic Notation (12.7b, 540c), Hybrid Notation (Standard up to e96, then Engineering. Mimics Standard pre 4.6) and Logarithmic Notation (10^7.1, 10^8.7)."
-  titles: ["Scientific Notation", "Standard Formatting", "Engineering Notation", "Alphabetic Notation", "Hybrid Notation", "Logarithmic Notation"],
-4) Add menu option for precision
+3) Add to menu (DONE)
+  - Line 563/564 in config.js
+4) Add ctrl menu option for changing base + precision
+5) Extend prettifySub to handle custom precision
