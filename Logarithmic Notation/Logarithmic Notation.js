@@ -61,7 +61,7 @@ function prettify(number) {
 	return prettifySub(number) + suffix;
 }
 
-// Line 563
+// Line 563 in config
 game.options.menu.standardNotation.description = "<p>Swap between Standard Formatting (12.7M, 540B), Engineering Notation (12.7e6, 540e9), Scientific Notation (1.27e7, 5.40e11), Alphabetic Notation (12.7b, 540c), Hybrid Notation (Standard up to e96, then Engineering. Mimics Standard pre 4.6) and Logarithmic Notation (10^7.10, 10^8.73).</p><p><b>Hold Ctrl while clicking to change the precision and the base for Logarithmic Notation.</b></p>"
-// Line 564
+// Line 564 in config
 game.options.menu.standardNotation.titles = ["Scientific Notation", "Standard Formatting", "Engineering Notation", "Alphabetic Notation", "Hybrid Notation", "Logarithmic Notation"],
