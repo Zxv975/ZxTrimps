@@ -11,7 +11,7 @@ function prettify(number) {
 	if (base <= 0) return prettifySub(number);
     
     // This part is used for logarithmic notation only
-	var mantissa = 10 || game.options.menu;
+	var mantissa = 38 || game.options.menu;
 	var exponent = Math.log(number) / Math.log(mantissa);
     
 	number /= Math.pow(1000, base);
@@ -30,7 +30,7 @@ function prettify(number) {
 		}
 	}
 	else if(game.options.menu.standardNotation.enabled == 5) {
-		return mantissa + "^" + prettifySub(exponent);
+		return (prettifySub(exponent)).sup() + (mantissa).toString().sub();
 	}
 	else {
 		var suffices = [
@@ -64,4 +64,4 @@ function prettify(number) {
 // Line 563 in config
 game.options.menu.standardNotation.description = "<p>Swap between Standard Formatting (12.7M, 540B), Engineering Notation (12.7e6, 540e9), Scientific Notation (1.27e7, 5.40e11), Alphabetic Notation (12.7b, 540c), Hybrid Notation (Standard up to e96, then Engineering. Mimics Standard pre 4.6) and Logarithmic Notation (10^7.10, 10^8.73).</p><p><b>Hold Ctrl while clicking to change the precision and the base for Logarithmic Notation.</b></p>"
 // Line 564 in config
-game.options.menu.standardNotation.titles = ["Scientific Notation", "Standard Formatting", "Engineering Notation", "Alphabetic Notation", "Hybrid Notation", "Logarithmic Notation"],
+game.options.menu.standardNotation.titles = ["Scientific Notation", "Standard Formatting", "Engineering Notation", "Alphabetic Notation", "Hybrid Notation", "Logarithmic Notation"]

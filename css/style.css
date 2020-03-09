@@ -1,3 +1,8 @@
+h1,h2,h3,h4,h5,h6{
+	padding: 0;
+	margin: 0;
+	font-size: inherit;
+}
 /*Top Row*/
 .badge {
 	background-color: #3b3b3b;
@@ -5,7 +10,7 @@
 body {
 	background-color: black;
 	overflow-y: hidden;
-overflow-x: hidden;
+	overflow-x: hidden;
 }
 .spire ul li.spireCell.cellColorNotBeaten{
 	background-color: #928DAD;
@@ -44,7 +49,7 @@ overflow-x: hidden;
 
 .progress-bar {
     -webkit-transition: width .1s ease;
-    transition: width .1s ease;
+	transition: width .1s ease;
 }
 
 #wrapper {
@@ -86,6 +91,11 @@ overflow-x: hidden;
 #talentsTitle{
 	text-align: center;
 	font-size: 1.9vw;
+}
+
+#talentsAffordable{
+	font-size: 1.5vw;
+	padding-top: 0.2vw;
 }
 
 #talentsCost{
@@ -384,15 +394,15 @@ overflow-x: hidden;
 	display: inline-block;
 }
 
-#autoStructureConfigTable tbody tr td{
+#autoPurchaseConfigTable tbody tr td{
 	padding: 5px;
 }
 
-#autoStructureConfigTable tbody tr td:nth-child(2) div:first-child{
+#autoPurchaseConfigTable tbody tr td:nth-child(2) div:first-child{
 	border-left: 1px solid black;
 }
 
-.structConfigCheckbox, .jobConfigCheckbox{
+.structConfigCheckbox, .jobConfigCheckbox, .equipConfigCheckbox{
 	transform: scale(2.5);
 }
 
@@ -412,22 +422,26 @@ overflow-x: hidden;
 	color: #00d936;
 }
 
-#autoStructureConfigTable{
+#autoPurchaseConfigTable{
 	width: 100%;
 	font-size: 1.2vw;
 }
 
-#autoStructureConfigTable tbody tr td div div select{
+#autoPurchaseConfigTable tbody tr td div div select{
 	padding: 1%;
 }
 
-.structConfigQuantity, .jobConfigQuantity{
+.structConfigQuantity, .jobConfigQuantity, .equipConfigQuantity{
 	display: inline-block;
 	width: 50%;
 	padding: 1%;
 	line-height: normal;
 	border-width: 1px;
 	margin-right: 10%;
+}
+
+.equipConfigQuantity{
+	width: 40%;
 }
 
 .incrementBtn {
@@ -686,7 +700,7 @@ overflow-x: hidden;
 	font-size: 0.9vw;
 }
 
-#viewChallengeText {
+#viewChallengeText, #extraChallengeStuff {
 	font-size: 1.3vw;
 	color: white;
 }
@@ -694,6 +708,11 @@ overflow-x: hidden;
 #viewChallengeText ul{
 	overflow-y: auto;
 	max-height: 22vw;
+}
+
+#viewChallenge{
+	max-height: 60vh;
+	overflow-y: auto;
 }
 
 .nextChallenge {
@@ -1049,6 +1068,14 @@ overflow-x: hidden;
 	background-color: #1f003d;
 }
 
+.settingBtn5{
+	background-color: #53025a;
+}
+
+.settingBtn5:hover{
+	background-color: #1f0022;
+}
+
 .settingBtn0, .settingBtn1, .settingBtn3, .settingBtn4 {
     color: white;
 }
@@ -1195,6 +1222,7 @@ overflow-x: hidden;
     display: block;
     margin-top: 5px;
 	font-size: .9vw;
+	margin-bottom: 0;
 }
 
 #buildings {
@@ -1266,6 +1294,11 @@ overflow-x: hidden;
 	background-color: initial;
 	border: initial;
 	margin: initial;
+}
+
+.heirloomRenameTip{
+	font-size: 0.8vw;
+	color: white;
 }
 
 @media screen and (max-width: 1200px) {
@@ -1542,6 +1575,15 @@ overflow-x: hidden;
 	text-decoration: underline;
 }
 
+.mapBonus10{
+	color: #00ff18;
+	text-shadow:
+	-1px -1px 0 black,  
+		1px -1px 0 black,
+	-1px 1px 0 black,
+		1px 1px 0 black;
+}
+
 #selectedMapName {
     text-decoration: underline;
 	padding-top: 10px;
@@ -1558,6 +1600,18 @@ overflow-x: hidden;
 
 .red {
     color: red;
+}
+.natureUpgradeCost .green{
+	color: white;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.natureUpgradeCost .red, .natureUpgradeLevel .red{
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.natureUpgradeCost .orange{
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 .orange{
@@ -1764,9 +1818,17 @@ overflow-x: hidden;
 	display: inline-block;
 	width: initial;
 	font-size: 0.9vw;
-	float: right;
 	padding: 0.1vw 0.2vw;
 	margin: 0;
+}
+
+.heirloomEquippedContainer.col-xs-4 {
+	font-size: 1.7vw;
+}
+
+.heirloomEquippedContainer.col-xs-4 div{
+	margin-top: 0.5vw;
+	margin-bottom: 0.25vw !important;
 }
 
 .heirloomBtnGroup{
@@ -1865,6 +1927,23 @@ overflow-x: hidden;
 	text-align: center;
 	width: 2vw;
 	display: inline-block;
+}
+
+.heirloomChangeIcon{
+	display: inline-block;
+	font-size: 2.5vw;
+	width: 20%;
+	padding: 2%;
+	text-align: center;
+	cursor: pointer;
+}
+
+#selectedHeirloomIcon{
+	cursor: pointer;
+}
+
+.heirloomChangeIcon:hover{
+	background-color: rgb(27, 25, 25);
 }
 
 .heirloomRare0{
@@ -2098,8 +2177,6 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
 	}
 }
 
-
-
 .heirloomRare8 .heirloomMod:hover, .heirloomRare8.rarityBdBox{
 	border: 0.2vw solid #0e5a07;
 }
@@ -2107,6 +2184,82 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
 .heirloomRare8 .heirloomMod{
 	background-color: initial;
 }
+
+.heirloomRare9{
+	color: #5f39e6;
+	text-shadow: 
+			1px 1px 2px rgba(11, 2, 138, 0.6), 
+			0 0 25px rgba(3, 110, 17, 0.6), 
+			0 0 5px rgba(38, 28, 128, 0.6);
+}
+
+.rarityBdBox.heirloomRare9{
+	color: #15025a;
+	font-weight: bold;
+	text-shadow: 
+			1px 1px 8px #fff, 
+			0 0 50px #0bff02, 
+			0 0 25px #053d03, 
+			-0.17vw -0.17vw 0.17vw rgba(17, 71, 1, 0.8),  
+			  0.17vw -0.17vw 0.17vw rgba(13, 0, 89, 0.72),
+			 -0.17vw 0.17vw 0.17vw rgba(5, 44, 1, 0.58),
+			  0.17vw 0.17vw 0.3vw rgba(24, 0, 89, 0.72);
+}
+
+.heirloomRare9.heirloomThing, .heirloomRare9 div .selectedHeirloomIcon{
+	color: #15025a;
+	animation: heirRare9Animated 7s infinite;
+}
+
+.specDesc9{
+	color: #5f39e6;
+}
+
+.heirloomRare9 .heirloomMod:hover, .heirloomRare9.rarityBdBox{
+	border: 0.2vw solid #15025a;
+}
+
+.heirloomRare9 .heirloomMod{
+	background-color: initial;
+}
+
+@keyframes heirRare9Animated{
+	0% {
+		text-shadow: 
+			1px 1px 2px #837601, 
+			0 0 25px #3614b4, 
+			0 0 5px #4d4607, 
+			-0.17vw -0.17vw 0.17vw rgba(17, 71, 1, 0.8),  
+			  0.17vw -0.17vw 0.17vw rgba(13, 0, 89, 0.72),
+			 -0.17vw 0.17vw 0.17vw rgba(5, 44, 1, 0.58),
+			  0.17vw 0.17vw 0.3vw rgba(24, 0, 89, 0.72);	
+			  animation-timing-function: ease-in;
+	}
+	50% {
+		text-shadow: 
+			1px 1px 8px #033f01, 
+			0 0 50px #0bff02, 
+			0 0 25px #053d03, 
+			-0.17vw -0.17vw 0.17vw rgba(17, 71, 1, 0.8),  
+			  0.17vw -0.17vw 0.17vw rgba(13, 0, 89, 0.72),
+			 -0.17vw 0.17vw 0.17vw rgba(5, 44, 1, 0.58),
+			  0.17vw 0.17vw 0.3vw rgba(24, 0, 89, 0.72);	
+			  animation-timing-function: ease-out;
+	}
+	100% {
+	text-shadow: 
+			1px 1px 2px #837601, 
+			0 0 25px #3614b4, 
+			0 0 5px #4d4607, 
+			-0.17vw -0.17vw 0.17vw rgba(17, 71, 1, 0.8),  
+			  0.17vw -0.17vw 0.17vw rgba(13, 0, 89, 0.72),
+			 -0.17vw 0.17vw 0.17vw rgba(5, 44, 1, 0.58),
+			  0.17vw 0.17vw 0.3vw rgba(24, 0, 89, 0.72);	
+	}
+}
+
+
+
 
 .upgradeCostTextMax{
 	font-size: 0.7em;
@@ -2171,7 +2324,7 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
 	line-height: 2vw;
 }
 
-#ShieldEquipped, #StaffEquipped{
+#ShieldEquipped, #StaffEquipped, #CoreEquipped{
 	background-color: #333;
 	display: inline-block;
 	padding: 1vw;
@@ -2185,7 +2338,7 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
     box-shadow:inset 0px 0px 0px 0.2vw #646473;
 }
 
-#ShieldEquippedName, #StaffEquippedName{
+#ShieldEquippedName, #StaffEquippedName, #CoreEquippedName{
 	font-size: 1.4vw;
 	line-height: 1.4vw;
 }
@@ -2232,8 +2385,6 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
 }
 
 #extraHeirloomsHere{
-	max-height: 17vw;
-	overflow-y: auto;
 	padding: 0.5vw;
 	
 }
@@ -2349,12 +2500,14 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
 	background-color: #111;
 	border: 0.3vw solid #555;
 	margin-bottom: 1vw;
+	overflow-y: auto;
+	max-height: 20vw;
 }
 
 .selectedHeirloomItem{
-	font-size: 2vw;
+	font-size: 1.85vw;
 	border: 0.3vw solid #555;
-	padding: 0.5vw;
+	padding: 0.4vw;
 	padding-left: 2vw;
 	text-align: left;
 	background-color: #111111;
@@ -2594,9 +2747,13 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
 	font-size: 1.3vw;
 }
 
-#achievementMainClose{
+#achievementMainClose, #achievementClose2{
 	color: #6f1f1f;
 	cursor: pointer;
+}
+
+#achievementClose2{
+	font-size: 2.5vw;
 }
 
 #achievementHeader{
@@ -2612,20 +2769,20 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
 	font-size: 3.8em;
 }
 
-#achievementPopupDescription, #achievementHoverDescription{
+#achievementPopupDescription, #achievementHoverDescription, #achievementTrackerDescription{
 	font-size: .85em;
 }
 
-#achievementPopupReward, #achievementHoverReward{
+#achievementPopupReward, #achievementHoverReward, #achievementTrackerReward{
 	font-size: .85em;
 }
 
-#achievementHoverProgress {
+#achievementHoverProgress, #achievementTrackerProgress {
 	font-size: .75em;
 	font-weight: bold;
 }
 
-#achievementPopupTitle, #achievementHoverTitle{
+#achievementPopupTitle, #achievementHoverTitle, #achievementTrackerTitle{
 	font-weight: bold;
 	display: inline-block;
 }
@@ -2649,8 +2806,13 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
 	margin-right: 0.1vw;
 }
 
-#achievementHover .row .col-xs-8 {
+#achievementHover .row .col-xs-8, #achievementTracker .row .col-xs-8 {
 	text-align: center;
+}
+
+#achievementTracker .row{
+	margin-left: 0;
+	margin-right: 0;
 }
 
 
@@ -2700,7 +2862,7 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
 	border-image-slice: 3;
 }
 
-.achievementPopupIcon.achieveTier9, #achievementHoverTitle.achieveTier9, #achievementPopupTitle.achieveTier9 {
+.achievementPopupIcon.achieveTier9, #achievementHoverTitle.achieveTier9, #achievementPopupTitle.achieveTier9, #achievementTrackerTitle.achieveTier9 {
 	background-image: radial-gradient(ellipse at center, #2286ad 0%,#000000 30%,#661310 50%,#000000 80%,#2286ad 100%);
 	color: black;
 	-webkit-background-clip: text;
@@ -2709,6 +2871,61 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
 	border-radius: 25px;
 }
 
+.achieveTier10 {
+	border-image: linear-gradient(to top, #bd6543 0%,#661310 30%,#a18900 50%,#661310 80%,#bd6543 100%);
+	border-image-slice: 3;
+}
+
+.achievementPopupIcon.achieveTier10, #achievementHoverTitle.achieveTier10, #achievementPopupTitle.achieveTier10, #achievementTrackerTitle.achieveTier10 {
+	background-image: radial-gradient(ellipse at center, #bd6543 0%,#661310 30%,#665700 50%,#661310 80%,#bd6543 100%);
+	color: black;
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	border-radius: 25px;
+}
+
+.achieveTier10 {
+	border-image: linear-gradient(to top, #bd6543 0%,#661310 30%,#a18900 50%,#661310 80%,#bd6543 100%);
+	border-image-slice: 3;
+}
+
+.achievementPopupIcon.achieveTier10, #achievementHoverTitle.achieveTier10, #achievementPopupTitle.achieveTier10, #achievementTrackerTitle.achieveTier10 {
+	background-image: radial-gradient(ellipse at center, #bd6543 0%,#661310 30%,#665700 50%,#661310 80%,#bd6543 100%);
+	color: black;
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	border-radius: 25px;
+}
+
+.achieveTier11 {
+	border-image: linear-gradient(to top, #551555 0%,#35a5a5 30%,#1900ff 50%,#35a5a5 80%,#551555 100%);
+	border-image-slice: 3;
+}
+
+.achievementPopupIcon.achieveTier11, #achievementHoverTitle.achieveTier11, #achievementPopupTitle.achieveTier11, #achievementTrackerTitle.achieveTier11 {
+	background-image: radial-gradient(ellipse at center, #551555 0%,#1b5353 30%,#1900ff 50%,#1b5353 80%,#551555 100%);
+	color: black;
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	border-radius: 25px;
+}
+
+.achieveTier12 {
+	border-image: linear-gradient(to top, #620f0f 0%,#d58565 30%,#951545 50%,#d58565 80%,#620f0f 100%);
+	border-image-slice: 3;
+}
+
+.achievementPopupIcon.achieveTier12, #achievementHoverTitle.achieveTier12, #achievementPopupTitle.achieveTier12, #achievementTrackerTitle.achieveTier12 {
+	background-image: radial-gradient(ellipse at center, #620f0f 0%,#d58565 30%,#951545 50%,#d58565 80%,#620f0f 100%);
+	color: black;
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	border-radius: 25px;
+}
 
 #statsTitle{
 	font-size: 3vw;
@@ -3051,6 +3268,13 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
 	cursor: pointer;	
 }
 
+.fluffFormIce{
+	color: #3232c8;
+	font-weight: bold;
+	text-decoration: underline;
+	cursor: pointer;	
+}
+
 #fluffyExpBreakdown{
 	min-height: calc(1.5em + 1vw);
 	padding: 0.5vw 1.5vw;
@@ -3148,6 +3372,11 @@ background: linear-gradient(135deg,  #000000 0%, #400000 50%, #100000 100%);
 	background-color: red;
 }
 
+.bwUpgradeAvailable{
+	background-color: #e2e220 !important;
+	color: black !important;
+}
+
 .stackedVoids{
 	font-weight: bold;
 	color: #15FF00;
@@ -3159,6 +3388,11 @@ background: -webkit-linear-gradient(-45deg,  #2f006d 0%,#30046d 12%,#320370 25%,
 background: linear-gradient(135deg,  #2f006d 0%,#30046d 12%,#320370 25%,#3f0a6d 39%,#2f095e 50%,#2e0854 51%,#220535 60%,#25063d 76%,#12031e 92%,#131313 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2f006d', endColorstr='#131313',GradientType=1 ); 
 color: #DDDDFF !important;
+}
+
+.blackMap{
+	background-color: black;
+	color: white;
 }
 
 .voidMessage, .voidBadge, .voidCell.cellColorNotBeaten{
@@ -3254,6 +3488,7 @@ color: #DDDDFF !important;
 }
 .dangerColor, .colorDanger, .stateDanger{
 	background-color: #d9534f;
+	color: white;
 }
 
 .stateDanger.thingColorCtrl{
@@ -3633,6 +3868,16 @@ background-color: rgba(255,255,255,0.25);
 	font-size: .9em;
 }
 
+.critTier4{
+	color: #9e18f8;
+}
+
+#critSpan .critTier4 .icomoon{
+	position: absolute;
+    top: 12%;
+    font-size: 1.1vw;
+}
+
 #tab5{
 	width: 2.2%;
 }
@@ -3736,6 +3981,7 @@ background-color: rgba(255,255,255,0.25);
 	color: white;
 	font-size: 1.1vw;
 	width: 19.4%;
+	height: 1.8vw;
 }
 
 .challengeThing:hover{
@@ -3868,15 +4114,11 @@ background-color: rgba(255,255,255,0.25);
   color: #000;
 }
 
-.btn-new {
+.btn-new{
 	color: white;
-	background-image: linear-gradient(to right, rgba(0,0,0,0) 85%, #a27d02 95%), linear-gradient(#7F0505, #630202 40%, #684112 85%);
-	text-shadow:
-	 -1px -1px 0 #000,  
-	  1px -1px 0 #000,
-	 -1px 1px 0 #000,
-	  1px 1px 0 #000;
 	font-weight: bold;
+	background: linear-gradient(to bottom, #3abc7f 0%,#0f00bf 12%,#562c8e 19%,#000000 24%,#000000 73%,#562c8e 78%,#292ba5 86%,#3abc7f 100%);
+	width: 100%;
 }
 
 .btn-new:hover,
@@ -3885,14 +4127,23 @@ background-color: rgba(255,255,255,0.25);
 .btn-new:active,
 .btn-new.active,
 .open > .dropdown-toggle.btn-new {
-	color: white;
-	background-image: linear-gradient(to right, rgba(0,0,0,0) 75%, #a27d02 90%), linear-gradient(#008238, #01461f 60%, #02437C 85%);
+	color: #610000;
 	font-weight: bold;
-	text-shadow:
-	-2px -2px 0 #007d8d,  
-	 2px -2px 0 #007d8d,
-	-2px 2px 0 #007d8d,
-	 2px 2px 0 #007d8d;
+	background: linear-gradient(to bottom, #69c29a 0%,#665fb1 12%,#704c9c 19%,#000 24%,#000 73%,#704c9c 78%,#665fb1 86%,#69c29a 100%);
+	animation: newBtnHoverColor 10s infinite;
+}
+
+@keyframes newBtnHoverColor {
+    from, to { color: #ec644b; }
+    10%      { color: #db0a5b; }
+    20%      { color: #9788f6; }
+    30%      { color: #59abe3; }
+    40%      { color: #c8e2f3; }
+    50%      { color: #05bb9d; }
+    60%      { color: #89f0e0; }
+    70%      { color: #e9d460; }
+    80%      { color: #f39c12; }
+    90%      { color: #69f39e; }
 }
 
 .btn-new:active,
@@ -3900,6 +4151,7 @@ background-color: rgba(255,255,255,0.25);
 .open > .dropdown-toggle.btn-new {
   background-image: none;
 }
+
 
 #flagMustRestart{
 	color: maroon;
@@ -3966,7 +4218,17 @@ input::-webkit-inner-spin-button {
 	color: white !important;
 }
 
-.thingColorSquared.cBorderOn{
+.thingColorInfinite {
+	background-color: #003b99 !important;
+	color: white !important;
+}
+
+.thingColorInfinite:hover {
+	background-color: #012052 !important;
+	color: white !important;
+}
+
+.thingColorSquared.cBorderOn, .thingColorInfinite.cBorderOn{
 	-webkit-box-shadow:inset 0px 0px 0px 0.2vw #bfdfff;
     -moz-box-shadow:inset 0px 0px 0px 0.2vw #bfdfff;
     box-shadow:inset 0px 0px 0px 0.2vw #bfdfff;
@@ -3996,6 +4258,38 @@ input::-webkit-inner-spin-button {
 
 .thingColorFiringJob {
 	background: red;
+}
+
+.thingColorCanAffordRelicOff{
+	background: linear-gradient(to right, black 45%, rgba(166, 0, 0, 1) 60%);
+}
+
+.thingColorCanNotAffordRelicOff{
+	background: linear-gradient(to right, grey 45%, rgba(166, 0, 0, 0.4) 60%);
+}
+
+.thingColorCanAffordRelicSatisfied{
+	background: linear-gradient(to right, black 45%, rgba(15, 90, 2, 1) 60%);
+}
+
+.thingColorCanNotAffordRelicSatisfied{
+	background: linear-gradient(to right, grey 45%, rgba(15, 90, 2, 0.4) 60%);
+}
+
+.thingColorCanAffordRelicNextWaiting{
+	background: linear-gradient(to right, black 45%, rgba(90, 84, 2, 1) 60%);
+}
+
+.thingColorCanNotAffordRelicNextWaiting{
+	background: linear-gradient(to right, grey 45%, rgba(90, 84, 2, 0.4) 60%);
+}
+
+.thingColorCanAffordRelicBuying{
+	background: linear-gradient(to right, black 45%, rgba(4, 3, 114, 1) 60%);
+}
+
+.thingColorCanNotAffordRelicBuying{
+	background: linear-gradient(to right, grey 45%, rgba(4, 3, 114, 0.4) 60%);
 }
 
 .fireBtnFiring {
@@ -4040,37 +4334,48 @@ input::-webkit-inner-spin-button {
 
 .natureUpgradeLevel{
 	position: absolute;
-	font-size: 0.7vw;
+	font-size: 1vw;
 	top: 2%;
 	left: 2%;
 }
 
 .natureUpgradeCost{
 	position: absolute;
-	font-size: 0.7vw;
-	top: 80%;
+	font-size: 1vw;
+	top: 50%;
 	left: 2%;
-	
 }
 
 .natureBuyIconMini .natureUpgradeCost{
-	top: 77%;
-}
-
-.natureUpgradeCost .green{
-	color: white;
+	top: 2%;
+	left: 0%;
+	font-size: 0.9vw;
+	width: 100%;
+	text-align: center;
 }
 
 .empowerTabPoison a, .empoweredCellPoison, .tabColPoison, .badNamePoison, #poisonEmpowermentIcon{
 	background: rgba(50, 150, 50, 0.75) !important;
 }
 
+.tabColPoison{
+    box-shadow:inset 0px 0px 0px 0.2vw #1e571e;
+}
+
 .empowerTabWind a, .empoweredCellWind, .tabColWind, .badNameWind, #windEmpowermentIcon{
 	background: rgba(60, 75, 130, 0.75) !important;
 }
 
+.tabColWind{
+    box-shadow:inset 0px 0px 0px 0.2vw #283257;
+}
+
 .empowerTabIce a, .empoweredCellIce, .tabColIce, .badNameIce, #iceEmpowermentIcon{
 	background: rgba(50, 50, 200, 0.75) !important;
+}
+
+.tabColIce{
+    box-shadow:inset 0px 0px 0px 0.2vw #1f1f79;
 }
 
 .empowerTabIce.tabSelected a, .empowerTabIce a:hover {
@@ -4094,6 +4399,14 @@ input::-webkit-inner-spin-button {
 	color: white;
 }
 
+.natureTop{
+	background-color: rgba(0, 0, 0, 0.4);
+	margin: 0.19vw;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+	z-index: 4;
+	margin-bottom: 0.78vw;
+}
+
 #infoSpanPoison{
 	background: rgb(20, 80, 20);
 }
@@ -4110,12 +4423,13 @@ input::-webkit-inner-spin-button {
 	display: inline-block;
 	font-size: 0.7vw;
 	border-radius: 50px;
-	border: 1px solid white;
+	border: 1px solid rgba(255, 255, 255, 0.3);
 	width: 4vw;
 	padding: 0.1vw;
+	padding-top: 0.2vw;
 	position: absolute;
-	top: 0.2vw;
-	left: 0.2vw;
+	top: 0.4vw;
+	left: 0.25vw;
 }
 
 .infoSpanNature span{
@@ -4134,33 +4448,77 @@ input::-webkit-inner-spin-button {
 .tabColNature{
 	text-align: center;
 	font-size: 1.5vw;
-	min-height: calc(99vh - 20vw - 205px);
+	padding-bottom: 0.78vw;
 	height: 100%;
 }
 
 .natureBuyIcon{
-	font-size: 3vw;
+	font-size: 2vw;
 	display: block;
-	width: 50%;
-	margin-left: 25%;
-	border: 5px solid black;
+	width: 88%;
+	margin-left: 6%;
+	border: 5px solid rgba(0, 0, 0, 0.7);
 	padding-top: 7.5%;
 	margin-bottom: 2%;
 	cursor: pointer;
 	position: relative;
+	height: 3.1vw;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index:3;
+}
+
+.natureBuyIcon:hover{
+	background-color: rgba(0, 0, 0, 0.2);
+	border-color: rgba(0, 0, 0, 0.8);
+}
+
+.natureBigIcon{
+	position: absolute;
+	left: 75%;
+	top: 0.35vw;
 }
 
 .natureBuyIconMini{
-	font-size: 2vw;
-	display: inline-block;
-	width: 40%;
-	margin-left: 0;
+	font-size: 1.5vw;
+	float: left;
+	width: 43%;
+	margin-left: 2%;
 	padding-top: 7%;
 	padding-bottom: 5%;
+	height: 4vw;
 }
 
 .natureBuyIconMini:first-child{
-	margin-left: 5.5%;
+	margin-left: 6%;
+}
+
+.natureSmallIcon{
+	position: absolute;
+	top: 1.6vw;
+	left: 60%;
+}
+
+.natureSmallIcon.icon-shuffle3{
+	left: 15%;
+}
+
+.natureBackgroundIcon{
+	position: absolute;
+	font-size: 13vw;
+	top: 27%;
+	left: 5%;
+	z-index: 2;
+	color: rgba(255, 255, 255, 0.08);
+}
+
+.natureBackgroundIcon.icon-air{
+	left: 6%;
+	font-size: 12vw;
+	top: 30%;
+}
+
+.natureBackgroundIcon.icon-certificate{
+	left: 8%;
 }
 
 #natureA span{
@@ -4170,6 +4528,29 @@ input::-webkit-inner-spin-button {
 #natureContainer .row{
 	overflow: hidden;
 }
+
+.natureUberName{
+	font-size: 0.9vw;
+}
+
+.natureMessage{
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+	padding: 1%;
+	color: white;
+}
+
+.natureMessage.poison{
+	background-color: #164116;
+}
+
+.natureMessage.wind{
+	background-color: #283257;
+}
+
+.natureMessage.ice{
+    background-color: #141452;
+}
+
 
 .cellColorBeaten{
 	background: green !important;
@@ -4308,6 +4689,12 @@ sup{
 	margin-bottom: 1vh;
 }
 
+#statsRow{
+	max-height: calc(100vh - 18vw);
+	margin-bottom: 1vw;
+	overflow-y: auto;
+}
+
 .spirePoem {
 	font-style: italic;
 	font-weight: bold;
@@ -4315,8 +4702,18 @@ sup{
 	text-align: center;
 }
 
-.col-xs-3.fifth{
-	width: 20% !important;
+.formFifth{
+	width: 20%;
+	float: left;
+	padding: 0;
+	margin: 0;
+}
+
+.formSixth{
+	width: 16.66666667%;
+	float: left;
+	padding: 0;
+	margin: 0;
 }
 
 #dgChangeBtnContainer{
@@ -4962,4 +5359,508 @@ sup{
 		1px -1px 0 black,
 	-1px 1px 0 black,
 		1px 1px 0 black;
+}
+
+.thing.thingColorCanNotAfford .affordSR{
+	display: none;
+}
+
+.thing.thingColorCanAfford .cantAffordSR{
+	display: none;
+}
+
+.screenReaderAchievements{
+	font-size: 0.8vw;
+}
+
+.screenReaderAchievements tbody tr td{
+	padding: 0.1vw;
+	border: 1px solid white;
+}
+
+.screenReaderPerk{
+	font-size: 0.5em;
+}
+
+#swapPortalUniverseBtn{
+	position: absolute;
+	top: 1vw;
+	left: 1vw;
+	padding: 1vw;
+	text-align: center;
+	background-color: black;
+	color: white;
+	font-weight: bold;
+	font-size: 1vw;
+	border: 1px solid white;
+	cursor: pointer;
+}
+
+#swapPortalUniverseBtn:hover{
+	background-color: rgb(53, 52, 52);
+}
+
+#energyShield{
+	background: linear-gradient(0deg, rgb(33, 0, 124) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 50%, rgba(0,0,0,0) 70%, rgb(33, 0, 124) 100%);
+	position: absolute;
+	width: 0%;
+	height: 100%;
+	border-radius: 2%;
+	top: 0;
+	left: 0;
+	pointer-events:none;
+}
+
+.energyShieldIcon{
+	position: absolute;
+	top: 12%;
+	left: -14%;
+}
+
+#upgradesContainer{
+	min-height: calc(4vw + 1vh + 5px);
+}
+
+#gammaSpan .badge{
+	color: #7e65da;
+	background-color: black;
+}
+
+.achieveColorRed{
+	background-color: #b32d00;
+	background: repeating-linear-gradient(
+		135deg,
+		#b32d00,
+		#b32d00 10px,
+		#8f2401 10px,
+		#8f2401 20px
+	);
+}
+
+.achieveColorYellow{
+	background-color: #C5C515;
+	background: repeating-linear-gradient(
+				45deg,
+				#C5C515,
+				#C5C515 10px,
+				#9b9b11 10px,
+				#9b9b11 20px
+	);
+}
+
+.achieveColorGreen{
+	background-color: #159515;
+}
+
+.achieveColorGrey{
+	background-color: grey;
+}
+
+.heirloomSpent{
+	font-size: 0.8em;
+	text-decoration: italic;
+}
+
+#challengeTrappapalooza .thingName{
+	font-size: 0.9vw;
+}
+
+.questMessage{
+	font-size: 1.1vw;
+	padding: 2%;
+	background-color: black;
+}
+
+.questNew{
+	color: #4b39e6;
+}
+
+.questSuccess{
+	color: #0c8d2c;
+}
+
+.questMessage .icomoon{
+	color: yellow;
+}
+
+.questFail .icomoon{
+	color: grey;
+}
+
+.equalityColorOn{
+	background-color: #449d44;
+}
+
+.equalityColorOff{
+	background-color: #d43f3a;
+}
+
+.toggleAllBtn{
+	padding: 2%;
+	font-weight: bold;
+	font-size: 1.2vw;
+}
+
+#autoEquipMiscTable{
+	width: 100%;
+}
+
+#autoEquipMiscTable tbody tr td{
+	width: 18%;
+	text-align: center;
+	padding: 0.5%;
+}
+
+#autoEquipMiscTable tbody tr td:nth-child(3){
+	width: 23%;
+}
+
+#autoEquipMiscTable tbody tr td .toggleAllBtn{
+	font-size: 0.9vw;
+	padding: 0.5vw 0;
+	width: 100%;
+}
+
+.Obsidian.cellColorNotBeaten{
+	background-color: black !important;
+	color: white !important;
+	border-color: #8c0000 !important;
+}
+
+.obsidianMessage{
+	padding: 1vw;
+	font-size: 1.1vw;
+	border: 0.5vw solid #8c0000;
+	background-color: black;
+	color: white;
+}
+
+.fullDarkEssence{
+	display: block;
+	color: #00FFFF;
+	background-color: #000;
+	padding: 2%;
+	font-size: 1.5vw;
+}
+
+#offlineWrapper{
+	animation: timewarp 240s infinite linear;
+	color: white; 
+	width: 100vw; 
+	height: 100vh; 
+	display: none;
+	background: linear-gradient(270deg, #000, #361212, #000, #042904, #000, #0f054d, #000);
+	background-size: 400% 400%;
+}
+
+@keyframes timewarp{
+	0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+#offlineTitle{
+	font-size: 2vw;
+	text-align: center;
+}
+
+#offlineInnerWrapper{
+	width: 50%;
+	margin-left: 25%;
+	font-size: 1.5vw;
+	padding-top: 10%;
+}
+
+#offlineProgressWrapper{
+	width: 100%;
+	height: 3vw;
+}
+
+#offlineExtraInfo{
+	font-size: 1.2vw;
+	text-align: right;
+}
+
+#offlineProgressText{
+	left: 0;
+	padding-top: 0.35vw;
+	width: 100%;
+	position: absolute;
+	font-weight: bold;
+	text-align: center;
+	color: black;
+	font-size: 1.7vw;
+}
+
+.offlineMapBtn{
+	width: 47%;
+	margin: 1%;
+	font-size: 1vw;
+}
+
+#offlineTimeOffline{
+	padding-top: 2vw;
+	text-align: center;
+}
+
+.offlineExtraBtn{
+	width: 45%;
+	margin: 2vw 2%;
+	display: inline-block;
+	font-size: 1.2vw;
+}
+
+#offlineExtraBtnsContainer, #offlineMapBtns, #offlineZoneBtns{
+	height: 20vw;
+	border: 1px solid white;
+	padding-top: 2vw;
+}
+
+#offlineZoneBtns{
+	text-align: center;
+}
+
+#offlineEffective{
+	background-color: black;
+	color: red;
+	font-weight: bold;
+	font-size: 0.9em;
+	text-align: center;
+}
+
+#offlineSettingContainer{
+	text-align: center;
+}
+
+.mazRow div input{
+	width: 100%;
+}
+
+.mazRow div select{
+	width: 100%;
+}
+
+.mazRow{
+	padding: 0 2%;
+	margin: 0 1%;
+	font-weight: bold;
+}
+
+.mazRow.titles div{
+	text-align: center;
+	font-weight: bold;
+}
+
+.mazRow.titles{
+	border: 1px solid black;
+	margin: 0 1%;
+	padding: 0.2% 2%;
+}
+
+#mazAddRowBtn, #mazSwapPresetBtn{
+	margin-top: 0.5vw;
+}
+
+.mazDelete, .mazWorld, .mazCheckbox, .mazPreset, .mazRepeat, .mazRepeatUntil, .mazExit, .mazBwWorld, .mazCell, .mazTimes{
+	display: inline-block;
+}
+
+.mazDelete .icomoon{
+	position: relative;
+	top: 0.6vw;
+	left: -0.55vw;
+	color: red;
+	font-weight: bold;
+	font-size: 2vw;
+}
+
+#mazError{
+	font-weight: bold;
+	color: red;
+}
+
+.mazDelete{
+	width: 2%;
+	cursor: pointer;
+}
+
+.mazWorld, .mazCell{
+	width: 7.5%;
+}
+
+.mazCheckbox{
+	width: 4%;
+}
+
+.mazPreset{
+	width: 11%;
+}
+
+.mazRepeat{
+	width: 13%;
+}
+
+.mazRepeatUntil{
+	width: 16.5%;
+}
+
+.mazExit{
+	width: 16.5%;
+}
+
+.mazTimes{
+	width: 15.5%;
+}
+
+.mazBwZoneOff .mazTimes.select{
+	width: 18%;
+}
+
+.mazBwZoneOn .mazRepeatUntil{
+	width: 17.5%;
+}
+
+.mazBwZoneOn .mazExit{
+	width: 13%;
+}
+
+.mazBwZoneOn .mazRepeat{
+	width: 12%;
+}
+
+.mazBwZoneOn .mazPreset{
+	width: 10%;
+}
+
+.mazBwZoneOff .mazBwWorld{
+	display: none;
+}
+
+.mazBwZoneOn .mazBwWorld{
+	width: 8%;
+}
+
+.mazBwZoneOn .mazTimes{
+	width: 14%;
+}
+
+.mazBwMainOff .mazRepeatUntil select .mazBwClimbOption{
+	display: none;
+}
+
+.iconPadLeft{
+	padding-left: 0.1vw;
+}
+
+.blackMap ul li.cellColorNotBeaten{
+	background-color: #000000;
+	color: #535353;
+	border-color: #3f3f3f;
+}
+
+.blackMap ul li.cellColorBeaten{
+	background-color: #142916 !important;
+	color: #757575 !important;
+	border-color: #3f3f3f;
+}
+
+.blackMap ul li.cellColorCurrent{
+	background-color: #43491a !important;
+	color: #dadada !important;
+	border-color: #3f3f3f;
+}
+
+#achievementTracker{
+	position: absolute;
+	top: 11.5%;
+	width: calc(40.5vw - 15px);
+	height: 4.8vw;
+	z-index: 2;
+	color: #3f3f3f;
+	font-size: 1vw;
+	text-align: center;
+	border-radius: 25px;
+	border: 4px outset #536373;
+	display: none;
+	background-color: #dcdcdc;
+}
+
+#achievementTrackerIconContainer{
+	font-size: 1vw;
+}
+
+#achievementTrackerProgress, #achievementTrackerReward{
+	font-size: 0.82em;
+	margin-top: 0.2vw;
+}
+
+.pinnedAchieve{
+	margin-left: 10%;
+}
+
+.achieveTrackerColorRed{
+	background: repeating-linear-gradient(
+				135deg,
+				rgba(220, 220, 220, 0.9),
+				rgba(220, 220, 220, 0.9) 10px,
+				rgba(200, 200, 200, 0.9) 10px,
+				rgba(200, 200, 200, 0.9) 20px
+	);
+	border: 4px outset #b32d00 !important;
+}
+
+.achieveTrackerColorRed .row .noPad #achievementTrackerProgress{
+	color: #b32d00;
+}
+
+.achieveTrackerColorYellow{
+	background: repeating-linear-gradient(
+				45deg,
+				rgba(220, 220, 220, 0.9),
+				rgba(220, 220, 220, 0.9) 10px,
+				rgba(200, 200, 200, 0.9) 10px,
+				rgba(200, 200, 200, 0.9) 20px
+	);
+	border: 4px outset #C5C515 !important;
+}
+
+.achieveTrackerColorGreen{
+	border: 4px outset #159515 !important;
+}
+
+.achieveTrackerColorGreen .row .noPad #achievementTrackerProgress{
+	color: #159515;
+}
+
+.achieveTrackerColorGrey{
+	background-color: grey;
+}
+
+#closeTrackedAchieve{
+	position: absolute;
+	left: 95%;
+	color: #8f0505;
+	text-shadow:
+	-1px -1px 0 black,  
+		1px -1px 0 black,
+	-1px 1px 0 black,
+		1px 1px 0 black;
+	z-index: 9999999;
+}
+
+#achievementTrackerTitle{
+	font-size: 1.4vw;
+}
+
+#mayhemPoisonStacks span{
+	color: #0d9208;
+	background-color: black;
+}
+
+.col-hidden{
+	display: none;
+}
+
+#challengeMayhem{
+	background-color: #0d9208;
 }
