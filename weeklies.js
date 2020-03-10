@@ -176,7 +176,6 @@ function addToWeekly(dailyIndex) {
 		else 
 			mods.weekly[x].strength += dailyToAdd[x].strength;
 	}
-	
 }
 
 function removeFromWeekly(dailyIndex) {
@@ -241,14 +240,13 @@ function updateWeeklyBuffs() { // Generate unordered list for all the weekly buf
 function updateWeeklyHeliumReward() {
 	var value = getDailyHeliumValue(countDailyWeight(mods.weekly));
 	if(value == 100 || (Fluffy.isRewardActive("dailies") && value == 200)) value = 0;
-	var portalUni = (game.global.viewingUpgrades) ? game.global.universe : portalUniverse;
-	document.getElementById("specificChallengeDescription").childNodes[2].childNodes[0].innerHTML = `${prettify(value)}% ${((portalUni == 2) ? "Radon" : "Helium")}`;
+	document.getElementById("specificChallengeDescription").childNodes[2].childNodes[0].innerHTML = `${prettify(value)}% ${heliumOrRadon(false, true)}`;
 }
 
 function setWeeklyDescription() {
 	weeklyDescription = document.createElement("p");
 	weeklyDescription.id = "weeklyDescription";
-	weeklyDescription.innerHTML = `Weeklies are combinations of selected, compatible daily challenges. Dailies are compatible if their modifiers can be combined without any modifier exceeding the built-in cap. Dailies that are incompatible with those already selected are shown in ${"red".fontcolor("#cc2e25")}. Because of the way daily rewards are calculated, the reward value will always be ${"20% less".bold()} (per additional daily) than the sum of the individual dailies.`
+	weeklyDescription.innerHTML = `Weeklies are combinations of selected, compatible daily challenges. Dailies are compatible if their modifiers can be combined without any modifier exceeding the built-in cap. Dailies that are incompatible with those already selected are shown in ${"red".fontcolor("#cc2e25")}. Because the relationship between modifier strength and ${heliumOrRadon(false, true)} reward is not linear, the reward value won't always correspond to the sum of the individual dailies.`
 	document.getElementById("specificChallengeDescription").replaceChild(weeklyDescription, document.getElementById("specificChallengeDescription").childNodes[4]);
 }
 
