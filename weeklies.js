@@ -1,40 +1,56 @@
+// Helper functions
+function findPositionInFunction(f, searchTerms, stringPos = 0) { // Search a function f for the first instance of searchTerms[0], then find (relative to the first index) the position of searchTerms[1], and so on until searchTerms[n-1]. searchTerms[0] should be the most specific term (to get the search as close as possible), and searchTerms[1] onwards should get successively more broad, but be ordered such that all unwanted matchings for searchTerms[i] will be passed over by searchTerms[0] through searchTerms[i-1]. For example, searchTerms[0] could be an if statement conditional, and searchTerms[1] would be the next closing brace. The result would then be the position of the first closing brace after a specific if statement.
+	if(searchTerms.length == 0) 
+		return stringPos+1;
+	var tempTerm = searchTerms[0];
+	searchTerms.shift();
+	return findPositionInFunction(f, searchTerms, f.toString().indexOf(tempTerm, stringPos+1))
+}
+
+function insertCode(f, position, codeString) {
+	return Function(`return ${f.toString().slice(0, position)} 
+		${codeString}
+	${f.toString().slice(position)}`)()
+}
+
 // Overloaded / rewritten game functions
 
-tooltip = Function(`return ${tooltip.toString().slice(0, tooltip.toString().indexOf("Switch Daily")+322)} 
+tooltip = insertCode(tooltip, findPositionInFunction(tooltip, ["Switch Daily", "costText", "}"]), `
 	if(what == "Toggle Weekly") {
 		tooltipText = "Click to toggle combining compatible daily challenges to run them all at once."
 		costText = "";
 	}
 	if(what == "Add Daily") {
-		tooltipText = "Click to add daily to the running weekly."
+		tooltipText = "Click to add this daily to the running weekly."
 		costText = "";
 	}
 	if(what == "Incompatible Daily") {
 		tooltipText = "This daily is incompatible with your currently chosen dailies."
 		costText = "";
 	}
-${tooltip.toString().slice(tooltip.toString().indexOf("Switch Daily")+322)}`)() // Add weekly tooltip
+`) // Add weekly tooltip
 
-getDailyTopText = Function(`return ${getDailyTopText.toString().slice(0, getDailyTopText.toString().indexOf("returnText += \"<div class='row'") -2)}
+getDailyTopText = insertCode(getDailyTopText, findPositionInFunction(getDailyTopText, ["colorSuccess", "}", "}", "returnText", ";"]), `
 	returnText += "<div id='weeklyDiv' onmouseover='tooltip(\\"Toggle Weekly\\", null, event)' onmouseout='cancelTooltip()' onclick='toggleWeekly(\"+add+\")' class='noselect lowPad pointer dailyTop colorSuccess'> Weekly! </div>";
 	mods.weeklyFlag = false;
-${getDailyTopText.toString().slice(getDailyTopText.toString().indexOf("returnText += \"<div class='row'") -2)}`)() // Add weekly button
+`) // Add weekly button
 
-resetGame = Function(`return ${resetGame.toString().slice(0, resetGame.toString().indexOf('if (challenge == "Daily"'))} if (challenge == "Daily") 
-	game.global.dailyChallenge = getDailyChallenge(readingDaily, true, false);
-	else if(challenge == "Weekly" && Object.keys(mods.weekly).length > 0) {
-		game.global.dailyChallenge = mods.weekly;
-		game.global.challengeActive = "Daily";
-		challenge = "Daily";
+resetGame = insertCode(resetGame, findPositionInFunction(resetGame, ["challenge ==", "false", ";"]), `
+		else if(challenge == "Weekly" && Object.keys(mods.weekly).length > 0) {
+			game.global.dailyChallenge = mods.weekly;
+			game.global.challengeActive = "Daily";
+			challenge = "Daily";
 	}
-${resetGame.toString().slice(resetGame.toString().indexOf('if (challenge == "Daily"') + 103)}`)() // Allow portalling to handle weeklies, then treat them like normal dailies.
+`) // Upgrade portalling to handle weeklies, then treat them like normal dailies.
 
-function getDailyHeliumValue(weight){
+function getDailyHeliumValue(weight){ // Increased cap to 7 * 500%. Also extended the +20 and +100 weights to include weeklies.
 	//min 2, max 6
-	var value = 75 * weight + 20;
+	var value = 75 * weight + 20 * Math.max(mods.dailiesAdded.length, 1);
 	if (value < 100) value = 100;
-	//else if (value > 500) value = 500; // Removed this line because it caps the helium reward. Could feasibly put it at 7 * 500 if necessary I guess.
-	if (Fluffy.isRewardActive("dailies")) value += 100;
+	else if (value > 7*500) value = 7*500; 
+	if (Fluffy.isRewardActive("dailies")) {
+		value += 100 * Math.max(mods.dailiesAdded.length, 1);
+	}
 	return value;
 }
 
@@ -46,6 +62,7 @@ function startDaily(){
 	game.global.recentDailies.push(game.global.dailyChallenge.seed);
 	for(var x = 0; x < mods.seeds.length; x++)
 		game.global.recentDailies.push(mods.seeds[x])
+	resetWeeklyObject();
 	if (game.global.recentDailies.length == 7) giveSingleAchieve("Now What");
 	handleFinishDailyBtn();
 	dailyReduceEnlightenmentCost();
@@ -67,7 +84,6 @@ function resetWeeklyObject() {
 }
 
 function toggleWeekly(add) {
-	
 	resetWeeklyObject();
 	clearDailyNodes();
 	setWeeklyDescription();
