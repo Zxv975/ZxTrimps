@@ -27,21 +27,21 @@ tooltip = insertCode(tooltip, findPositionInFunction(tooltip, ["Switch Daily", "
 	if(what == "Incompatible Daily") {
 		tooltipText = "This daily is incompatible with your currently chosen dailies."
 		costText = "";
-	}
-`) // Add weekly tooltip
+	}`
+) // Add weekly tooltip
 
 getDailyTopText = insertCode(getDailyTopText, findPositionInFunction(getDailyTopText, ["colorSuccess", "}", "}", "returnText", ";"]), `
 	returnText += "<div id='weeklyDiv' onmouseover='tooltip(\\"Toggle Weekly\\", null, event)' onmouseout='cancelTooltip()' onclick='toggleWeekly(\"+add+\")' class='noselect lowPad pointer dailyTop colorSuccess'> Weekly! </div>";
-	mods.weeklyFlag = false;
-`) // Add weekly button
+	mods.weeklyFlag = false;`
+) // Add weekly button
 
 resetGame = insertCode(resetGame, findPositionInFunction(resetGame, ["challenge ==", "false", ";"]), `
 		else if(challenge == "Weekly" && Object.keys(mods.weekly).length > 0) {
 			game.global.dailyChallenge = mods.weekly;
 			game.global.challengeActive = "Daily";
 			challenge = "Daily";
-	}
-`) // Upgrade portalling to handle weeklies, then treat them like normal dailies.
+	}`
+) // Upgrade portalling to handle weeklies, then treat them like normal dailies.
 
 function getDailyHeliumValue(weight){ // Increased cap to 7 * 500%. Also extended the +20 and +100 weights to include weeklies.
 	//min 2, max 6
@@ -54,7 +54,7 @@ function getDailyHeliumValue(weight){ // Increased cap to 7 * 500%. Also extende
 	return value;
 }
 
-function startDaily(){
+function startDaily(){ // Added some cleanup for weeklies, and added selected dailies to the recently completed daily list, which is responsible for greying out completed dailies.
 	for (var item in game.global.dailyChallenge){
 		if (item == "seed") continue;
 		if (typeof dailyModifiers[item].start !== 'undefined') dailyModifiers[item].start(game.global.dailyChallenge[item].strength, game.global.dailyChallenge[item].stacks);
@@ -123,7 +123,6 @@ function toggleWeekly(add) {
 		
 	}
 }
-//
 
 function toggleDaily(dailyIndex, nodeIndex) {
 	if(mods.seeds.includes(getDailyTimeString(dailyIndex))) {
@@ -251,10 +250,10 @@ function setWeeklyDescription() {
 }
 
 function clearDailyNodes() {
-	document.getElementById("specificChallengeDescription").childNodes[5].innerHTML = "";
-	document.getElementById("specificChallengeDescription").childNodes[7].innerHTML = "";
-	document.getElementById("specificChallengeDescription").childNodes[6].nodeValue = "";
-	document.getElementById("specificChallengeDescription").childNodes[8].nodeValue = "";
+	for(var x = 5; x < document.getElementById("specificChallengeDescription").childNodes.length; x++) {
+		document.getElementById("specificChallengeDescription").childNodes[x].innerHTML = "";
+		document.getElementById("specificChallengeDescription").childNodes[x].nodeValue = "";
+	}
 }
 
 // Extra CSS colours to handle additions
