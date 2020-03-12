@@ -1,16 +1,23 @@
+mods = {};
+mods.weeklies = {
+	weekly: {},
+	seeds: [],
+	weeklyFlag: false,
+	dailiesAdded: [],
+	weeklyLength: 0
+};
+
 // Helper functions
 function findPositionInFunction(f, searchTerms, stringPos = 0) { // Search a function f for the first instance of searchTerms[0], then find (relative to the first index) the position of searchTerms[1], and so on until searchTerms[n-1]. searchTerms[0] should be the most specific term (to get the search as close as possible), and searchTerms[1] onwards should get successively more broad, but be ordered such that all unwanted matchings for searchTerms[i] will be passed over by searchTerms[0] through searchTerms[i-1]. For example, searchTerms[0] could be an if statement conditional, and searchTerms[1] would be the next closing brace. The result would then be the position of the first closing brace after a specific if statement.
 	if(searchTerms.length == 0) 
-		return stringPos+1;
+		return stringPos + 1;
 	var tempTerm = searchTerms[0];
 	searchTerms.shift();
 	return findPositionInFunction(f, searchTerms, f.toString().indexOf(tempTerm, stringPos+1))
 }
 
-function insertCode(f, position, codeString) {
-	return Function(`return ${f.toString().slice(0, position)} 
-		${codeString}
-	${f.toString().slice(position)}`)()
+function insertCode(f, position, codeString, offset = 0) {
+	return Function(`return ${f.toString().slice(0, position)}${codeString}${f.toString().slice(position + offset)}`)()
 }
 
 // Overloaded / rewritten game functions
@@ -32,24 +39,39 @@ tooltip = insertCode(tooltip, findPositionInFunction(tooltip, ["Switch Daily", "
 
 getDailyTopText = insertCode(getDailyTopText, findPositionInFunction(getDailyTopText, ["colorSuccess", "}", "}", "returnText", ";"]), `
 	returnText += "<div id='weeklyDiv' onmouseover='tooltip(\\"Toggle Weekly\\", null, event)' onmouseout='cancelTooltip()' onclick='toggleWeekly(\"+add+\")' class='noselect lowPad pointer dailyTop colorSuccess'> Weekly! </div>";
-	mods.weeklyFlag = false;`
+	mods.weeklies.weeklyFlag = false;`
 ) // Add weekly button
 
 resetGame = insertCode(resetGame, findPositionInFunction(resetGame, ["challenge ==", "false", ";"]), `
-		else if(challenge == "Weekly" && Object.keys(mods.weekly).length > 0) {
-			game.global.dailyChallenge = mods.weekly;
+		else if(challenge == "Weekly" && Object.keys(mods.weeklies.weekly).length > 0) {
+			game.global.dailyChallenge = mods.weeklies.weekly;
 			game.global.challengeActive = "Daily";
 			challenge = "Daily";
 	}`
 ) // Upgrade portalling to handle weeklies, then treat them like normal dailies.
 
-function getDailyHeliumValue(weight){ // Increased cap to 7 * 500%. Also extended the +20 and +100 weights to include weeklies.
+save = insertCode(save, findPositionInFunction(save, ["stringify", "("]), `{... game, ...mods}`, 4) // Overload save function to save mod stats
+
+load = insertCode(load, findPositionInFunction(load, ["midGame[c] = botSave", "}", "}"]), `if(savegame.hasOwnProperty("weeklies")) mods.weeklies.weeklyLength = savegame.weeklies.weeklyLength;
+		`
+) // Overload loading function to load mod stats
+
+game.challenges.Daily.getCurrentReward = insertCode(game.challenges.Daily.getCurrentReward, findPositionInFunction(game.challenges.Daily.getCurrentReward, ["getDailyHeliumValue", ")"]), `, true`);
+
+getCurrentDailyDescription = insertCode(getCurrentDailyDescription, findPositionInFunction(getCurrentDailyDescription, ["getDailyHeliumValue", ")"]), `, true`);
+
+function getDailyHeliumValue(weight, useWkLen = false){ // Increased cap to 7 * 500%. Also extended the +20 and +100 weights to include weeklies.
 	//min 2, max 6
-	var value = 75 * weight + 20 * Math.max(mods.dailiesAdded.length, 1);
+	var weeklyLength = 0;
+	if(useWkLen) 
+		weeklyLength = mods.weeklies.weeklyLength;
+	else
+		weeklyLength = mods.weeklies.dailiesAdded.length;
+	var value = 75 * weight + 20 * Math.max(weeklyLength, 1);
 	if (value < 100) value = 100;
-	else if (value > 7*500) value = 7*500; 
+	else if (value > 7*500) value = 7*500;
 	if (Fluffy.isRewardActive("dailies")) {
-		value += 100 * Math.max(mods.dailiesAdded.length, 1);
+		value += 100 * Math.max(weeklyLength, 1);
 	}
 	return value;
 }
@@ -60,27 +82,21 @@ function startDaily(){ // Added some cleanup for weeklies, and added selected da
 		if (typeof dailyModifiers[item].start !== 'undefined') dailyModifiers[item].start(game.global.dailyChallenge[item].strength, game.global.dailyChallenge[item].stacks);
 	}
 	game.global.recentDailies.push(game.global.dailyChallenge.seed);
-	for(var x = 0; x < mods.seeds.length; x++)
-		game.global.recentDailies.push(mods.seeds[x])
-	resetWeeklyObject();
+	for(var x = 0; x < mods.weeklies.seeds.length; x++)
+		game.global.recentDailies.push(mods.weeklies.seeds[x]);
 	if (game.global.recentDailies.length == 7) giveSingleAchieve("Now What");
+	mods.weeklies.weeklyLength = mods.weeklies.dailiesAdded.length;
+	resetWeeklyObject();
 	handleFinishDailyBtn();
 	dailyReduceEnlightenmentCost();
 }
 
 // Custom weekly functions
 
-mods = {
-	weekly: {},
-	seeds: [],
-	weeklyFlag: false,
-	dailiesAdded: []
-};
-
 function resetWeeklyObject() {
-	mods.weekly = {};
-	mods.seeds = [];
-	mods.dailiesAdded = [];
+	mods.weeklies.weekly = {};
+	mods.weeklies.seeds = [];
+	mods.weeklies.dailiesAdded = [];
 }
 
 function toggleWeekly(add) {
@@ -89,8 +105,8 @@ function toggleWeekly(add) {
 	setWeeklyDescription();
 	updateWeeklyBuffs();
 	updateWeeklyHeliumReward();
-	mods.weeklyFlag = !mods.weeklyFlag; // Toggle the weekly flag
-	if(mods.weeklyFlag) {		
+	mods.weeklies.weeklyFlag = !mods.weeklies.weeklyFlag; // Toggle the weekly flag
+	if(mods.weeklies.weeklyFlag) {		
 		document.getElementById('activatePortalBtn').style.display = 'none';
 		document.getElementById('weeklyDiv').classList.remove("colorSuccess")
 		document.getElementById('weeklyDiv').classList.add("colourSelectedWeekly") // Select weekly
@@ -119,29 +135,28 @@ function toggleWeekly(add) {
 		game.global.selectedChallenge = "Daily";
 		document.getElementById('weeklyDiv').classList.remove("colourSelectedWeekly")
 		document.getElementById('weeklyDiv').classList.add("colorSuccess")
-		getDailyChallenge(add); // Resets and rebuilds daily challenge nodes.
-		
+		getDailyChallenge(add); // Resets and rebuilds daily challenge nodes.	
 	}
 }
 
 function toggleDaily(dailyIndex, nodeIndex) {
-	if(mods.seeds.includes(getDailyTimeString(dailyIndex))) {
+	if(mods.weeklies.seeds.includes(getDailyTimeString(dailyIndex))) {
 		removeFromWeekly(dailyIndex);
 		document.getElementsByClassName("dailyTopRow")[0].childNodes[nodeIndex].classList.remove("addedDaily");
 		document.getElementsByClassName("dailyTopRow")[0].childNodes[nodeIndex].classList.add("colorSuccess");
-		mods.dailiesAdded.splice(mods.dailiesAdded.indexOf(nodeIndex), 1);
+		mods.weeklies.dailiesAdded.splice(mods.weeklies.dailiesAdded.indexOf(nodeIndex), 1);
 	}
 	else {
 		addToWeekly(dailyIndex);
 		document.getElementsByClassName("dailyTopRow")[0].childNodes[nodeIndex].classList.remove("colorSuccess");
 		document.getElementsByClassName("dailyTopRow")[0].childNodes[nodeIndex].classList.add("addedDaily");
-		mods.dailiesAdded.push(nodeIndex);
+		mods.weeklies.dailiesAdded.push(nodeIndex);
 	}
 	updateWeeklyHeliumReward();
 	updateWeeklyBuffs();
 	
 	for(var i = 0; i < 7; i++) {
-		if(mods.dailiesAdded.includes(i))
+		if(mods.weeklies.dailiesAdded.includes(i))
 			continue;
 		dayIndex = nodeToDayIndex(i);
 		if(game.global.recentDailies.includes(getDailyTimeString(dayIndex))) // Daily is already greyed out
@@ -159,7 +174,7 @@ function toggleDaily(dailyIndex, nodeIndex) {
 			document.getElementsByClassName("dailyTopRow")[0].childNodes[i].setAttribute("onmouseover", `tooltip("Add Daily", null, event)`);
 		}
 	}
-	if(mods.dailiesAdded.length > 0)
+	if(mods.weeklies.dailiesAdded.length > 0)
 		document.getElementById('activatePortalBtn').style.display = 'inline-block';
 	else
 		document.getElementById('activatePortalBtn').style.display = 'none';
@@ -169,11 +184,11 @@ function addToWeekly(dailyIndex) {
 	var dailyToAdd = getDailyChallenge(dailyIndex, true);
 	for(x in dailyToAdd) {
 		if(x == "seed")
-			mods.seeds.push(dailyToAdd[x]);
-		else if(mods.weekly[x] == null)
-			mods.weekly[x] = dailyToAdd[x];
+			mods.weeklies.seeds.push(dailyToAdd[x]);
+		else if(mods.weeklies.weekly[x] == null)
+			mods.weeklies.weekly[x] = dailyToAdd[x];
 		else 
-			mods.weekly[x].strength += dailyToAdd[x].strength;
+			mods.weeklies.weekly[x].strength += dailyToAdd[x].strength;
 	}
 }
 
@@ -181,11 +196,11 @@ function removeFromWeekly(dailyIndex) {
 	var dailyToRemove = getDailyChallenge(dailyIndex, true);
 	for(x in dailyToRemove) {
 		if(x == "seed") 
-			mods.seeds.splice(mods.seeds.indexOf(dailyToRemove[x]), 1);
+			mods.weeklies.seeds.splice(mods.weeklies.seeds.indexOf(dailyToRemove[x]), 1);
 		else {
-			mods.weekly[x].strength -= dailyToRemove[x].strength;
-			if(mods.weekly[x].strength == 0)
-				delete mods.weekly[x];
+			mods.weeklies.weekly[x].strength -= dailyToRemove[x].strength;
+			if(mods.weeklies.weekly[x].strength == 0)
+				delete mods.weeklies.weekly[x];
 		}
 	}
 }
@@ -196,9 +211,9 @@ function checkIfDailyCompatible(dayIndex) {
 	for(x in dayToCheck) {
 		if(x == "seed")
 			continue;
-		else if(mods.weekly[x] == null) 
+		else if(mods.weeklies.weekly[x] == null) 
 			continue;
-		else if(mods.weekly[x].strength + dayToCheck[x].strength <= dailyModifiers[x].minMaxStep[1])
+		else if(mods.weeklies.weekly[x].strength + dayToCheck[x].strength <= dailyModifiers[x].minMaxStep[1])
 			continue;
 		else {
 			compatibleFlag = false;
@@ -231,13 +246,13 @@ function nodeToDayIndex(i) { // Converts a node position (Sunday = 0, ... Saturd
 function updateWeeklyBuffs() { // Generate unordered list for all the weekly buffs.
 	buffList = document.createElement("ul");
 	buffList.style.textAlign = "left";
-	for(x in mods.weekly)
-		buffList.innerHTML += `<li> ${dailyModifiers[x].description(mods.weekly[x].strength)} </li>`;
+	for(x in mods.weeklies.weekly)
+		buffList.innerHTML += `<li> ${dailyModifiers[x].description(mods.weeklies.weekly[x].strength)} </li>`;
 	document.getElementById("specificChallengeDescription").replaceChild(buffList, document.getElementById("specificChallengeDescription").childNodes[3]);
 }
 
 function updateWeeklyHeliumReward() {
-	var value = getDailyHeliumValue(countDailyWeight(mods.weekly));
+	var value = getDailyHeliumValue(countDailyWeight(mods.weeklies.weekly));
 	if(value == 100 || (Fluffy.isRewardActive("dailies") && value == 200)) value = 0;
 	document.getElementById("specificChallengeDescription").childNodes[2].childNodes[0].innerHTML = `${prettify(value)}% ${heliumOrRadon(false, true)}`;
 }
@@ -255,6 +270,8 @@ function clearDailyNodes() {
 		document.getElementById("specificChallengeDescription").childNodes[x].nodeValue = "";
 	}
 }
+
+load(); // This load is important because we overloaded the load function. It has already loaded the version of the game that doesn't have any mods active, so this load includes the mods.
 
 // Extra CSS colours to handle additions
 
