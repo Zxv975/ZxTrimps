@@ -11386,9 +11386,10 @@ function checkMapAtZoneWorld(runMap){
 
 function runMapAtZone(index){
 	var setting = game.options.menu.mapAtZone.getSetZone()[index];
-	if (setting.preset == 5 && !game.global.challengeActive == "Quagmire") return;
-	if (setting.preset == 4 && !getNextVoidId()) return;
+	if (setting.preset == 5 && !game.global.challengeActive == "Quagmire" && setting.check) return;
+	if (setting.preset == 4 && !getNextVoidId() && setting.check) return;
 	mapsClicked(true);
+	if (game.global.spireActive) deadInSpire();
 	toggleSetting('mapAtZone', null, false, true);
 	if (!setting || !setting.check) return;
 	//Don't change repeat if the setting is to run void maps, instead change void repeat
