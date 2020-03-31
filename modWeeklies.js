@@ -241,8 +241,14 @@ function updateWeeklyBuffs() { // Generate unordered list for all the weekly buf
 
 function updateWeeklyHeliumReward() {
 	var value = getDailyHeliumValue(countDailyWeight(mods.weeklies.weekly));
-	if(value == 100 || (Fluffy.isRewardActive("dailies") && value == 200)) value = 0;
-	document.getElementById("specificChallengeDescription").childNodes[2].childNodes[0].innerHTML = `${prettify(value)}% ${heliumOrRadon(false, true)}`;
+	var regularHelium = 0;
+	for(i of mods.weeklies.dailiesAdded) 
+		regularHelium += getDailyHeliumValue(countDailyWeight(getDailyChallenge(nodeToDayIndex(i), true)));
+	if(value == 100 || (Fluffy.isRewardActive("dailies") && value == 200)) {
+		value = 0;
+		regularHelium = 0;
+	}
+	document.getElementById("specificChallengeDescription").childNodes[2].childNodes[0].innerHTML = `${prettify(value)}% ${heliumOrRadon(false, true)} (${prettify(regularHelium)}% normally)`;
 }
 
 function setWeeklyDescription() {
