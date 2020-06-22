@@ -46,6 +46,8 @@ load = insertCode(load, findPositionInFunction(load, ["midGame[c] = botSave", "}
 
 game.challenges.Daily.getCurrentReward = insertCode(game.challenges.Daily.getCurrentReward, findPositionInFunction(game.challenges.Daily.getCurrentReward, ["getDailyHeliumValue", ")"]), `, true`);
 
+Fluffy.getCurrentExp = insertCode(Fluffy.getCurrentExp, findPositionInFunction(Fluffy.getCurrentExp, ["game.global.universe"], 0), `portalUniverse`, 20);
+
 getCurrentDailyDescription = insertCode(getCurrentDailyDescription, findPositionInFunction(getCurrentDailyDescription, ["getDailyHeliumValue", ")"]), `, true`);
 
 function getDailyHeliumValue(weight, useWkLen = false){ // Increased cap to 7 * 500%. Also extended the +20 and +100 weights to include weeklies.
@@ -193,7 +195,7 @@ function removeFromWeekly(dailyIndex) {
 	}
 }
 
-function checkIfDailyCompatible(dayIndex) {
+function checkIfDailyCompatible(dayIndex, ) {
 	dayToCheck = getDailyChallenge(dayIndex, true);
 	compatibleFlag = true;
 	for(x in dayToCheck) {
