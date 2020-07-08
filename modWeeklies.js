@@ -50,7 +50,7 @@ Fluffy.getCurrentExp = insertCode(Fluffy.getCurrentExp, findPositionInFunction(F
 
 getCurrentDailyDescription = insertCode(getCurrentDailyDescription, findPositionInFunction(getCurrentDailyDescription, ["getDailyHeliumValue", ")"]), `, true`);
 
-function getDailyHeliumValue(weight, useWkLen = false){ // Increased cap to 7 * 500%. Also extended the +20 and +100 weights to include weeklies.
+function getDailyHeliumValue(weight, useWkLen = true){ // Increased cap to 7 * 500%. Also extended the +20 and +100 weights to include weeklies.
 	//min 2, max 6
 	var weeklyLength = 0;
 	if(useWkLen) 
@@ -242,7 +242,7 @@ function updateWeeklyBuffs() { // Generate unordered list for all the weekly buf
 }
 
 function updateWeeklyHeliumReward() {
-	var value = getDailyHeliumValue(countDailyWeight(mods.weeklies.weekly));
+	var value = getDailyHeliumValue(countDailyWeight(mods.weeklies.weekly), false);
 	var regularHelium = 0;
 	for(i of mods.weeklies.dailiesAdded) 
 		regularHelium += getDailyHeliumValue(countDailyWeight(getDailyChallenge(nodeToDayIndex(i), true)));
