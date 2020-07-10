@@ -50,7 +50,9 @@ Fluffy.getCurrentExp = insertCode(Fluffy.getCurrentExp, findPositionInFunction(F
 
 getCurrentDailyDescription = insertCode(getCurrentDailyDescription, findPositionInFunction(getCurrentDailyDescription, ["getDailyHeliumValue", ")"]), `, true`);
 
-function getDailyHeliumValue(weight, useWkLen = true){ // Increased cap to 7 * 500%. Also extended the +20 and +100 weights to include weeklies.
+selectChallenge = insertCode(selectChallenge, findPositionInFunction(selectChallenge, [";"]), `resetWeeklyObject();`);
+
+function getDailyHeliumValue(weight, useWkLen = false){ // Increased cap to 7 * 500%. Also extended the +20 and +100 weights to include weeklies.
 	//min 2, max 6
 	var weeklyLength = 0;
 	if(useWkLen) 
