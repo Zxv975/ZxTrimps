@@ -44,22 +44,25 @@ load = insertCode(load, findPositionInFunction(load, ["midGame[c] = botSave", "}
 		`
 ) // Overload loading function to load mod stats
 
-game.challenges.Daily.getCurrentReward = insertCode(game.challenges.Daily.getCurrentReward, findPositionInFunction(game.challenges.Daily.getCurrentReward, ["getDailyHeliumValue", ")"]), `, true`);
+game.challenges.Daily.getCurrentReward = insertCode(game.challenges.Daily.getCurrentReward, findPositionInFunction(game.challenges.Daily.getCurrentReward, ["getDailyHeliumValue", ")"]), `, 1`);
 
 Fluffy.getCurrentExp = insertCode(Fluffy.getCurrentExp, findPositionInFunction(Fluffy.getCurrentExp, ["game.global.universe"], 0), `portalUniverse`, 20);
 
-getCurrentDailyDescription = insertCode(getCurrentDailyDescription, findPositionInFunction(getCurrentDailyDescription, ["getDailyHeliumValue", ")"]), `, true`);
+getCurrentDailyDescription = insertCode(getCurrentDailyDescription, findPositionInFunction(getCurrentDailyDescription, ["getDailyHeliumValue", ")"]), `, 1`);
 
 selectChallenge = insertCode(selectChallenge, findPositionInFunction(selectChallenge, [";"]), `resetWeeklyObject();`);
 
-function getDailyHeliumValue(weight, useWkLen = false){ // Increased cap to 7 * 500%. Also extended the +20 and +100 weights to include weeklies.
+function getDailyHeliumValue(weight, useWkLen = 1){ // Increased cap to 7 * 500%. Also extended the +20 and +100 weights to include weeklies.
 	//min 2, max 6
 	var weeklyLength = 0;
-	if(useWkLen) 
+	if(useWkLen == 0) 
 		weeklyLength = mods.weeklies.weeklyLength;
-	else
+	else if(useWkLen == 1)
 		weeklyLength = mods.weeklies.dailiesAdded.length;
+	else if(useWkLen == 2)
+		weeklyLength = 0;
 	var value = 75 * weight + 20 * Math.max(weeklyLength, 1);
+	console.log(weeklyLength)
 	if (value < 100) value = 100;
 	else if (value > 7*500) value = 7*500;
 	if (Fluffy.isRewardActive("dailies")) {
@@ -244,10 +247,10 @@ function updateWeeklyBuffs() { // Generate unordered list for all the weekly buf
 }
 
 function updateWeeklyHeliumReward() {
-	var value = getDailyHeliumValue(countDailyWeight(mods.weeklies.weekly), false);
+	var value = getDailyHeliumValue(countDailyWeight(mods.weeklies.weekly), 0);
 	var regularHelium = 0;
 	for(i of mods.weeklies.dailiesAdded) 
-		regularHelium += getDailyHeliumValue(countDailyWeight(getDailyChallenge(nodeToDayIndex(i), true)));
+		regularHelium += getDailyHeliumValue(countDailyWeight(getDailyChallenge(nodeToDayIndex(i), true)), 2);
 	if(value == 100 || (Fluffy.isRewardActive("dailies") && value == 200)) {
 		value = 0;
 		regularHelium = 0;
