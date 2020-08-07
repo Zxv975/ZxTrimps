@@ -1709,8 +1709,8 @@ USD = [
 
 mods = {};
 mods.equality = {};
-mods.equality.p = 50;
-mods.equality.k = 3;
+mods.equality.p = 100;
+mods.equality.k = 5;
 
 fight = insertCode(fight, findPositionInFunction(fight, ["game.portal.Equality.scalingCount--"], -162), `
 	else
@@ -1719,7 +1719,7 @@ fight = insertCode(fight, findPositionInFunction(fight, ["game.portal.Equality.s
 		game.global.armyAttackCount++;`, 526)
 
 startFight = insertCode(startFight, findPositionInFunction(startFight, ["game.global.fighting = true", ";"]), `
-	game.portal.Equality.scalingCount = Math.ceil(Math.log(USD[mods.equality.k-1][mods.equality.p-1]*cell.attack*2/(game.global.soldierHealthMax + game.global.soldierEnergyShieldMax))/Math.log(10/9));
+	game.portal.Equality.scalingCount = Math.ceil(Math.log(USD[mods.equality.k-1][mods.equality.p-1]*cell.attack/(2*(game.global.soldierHealthMax + game.global.soldierEnergyShieldMax)))/Math.log(10/9));
 	manageEqualityStacks();`)
 	
 clear()
