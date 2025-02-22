@@ -12062,7 +12062,6 @@ function refillEnergyShield(){
 	game.global.soldierEnergyShieldMax = getMaxEnergyShield();
 	game.global.soldierEnergyShield = game.global.soldierEnergyShieldMax;
 }
-
 function updateAllBattleNumbers(skipNum) {
 	if (usingRealTimeOffline) return;
 
@@ -12073,8 +12072,11 @@ function updateAllBattleNumbers(skipNum) {
 	if (!cellElem) return;
 
 	swapClass('cellColor', 'cellColorCurrent', cellElem);
+	var maxDurability = game.global.soldierEnergyShieldMax * ((Fluffy.isRewardActive('shieldlayer'))+1) + game.global.soldierHealthMax;
 	let elem = document.getElementById('goodGuyHealthMax');
-	let elemText = prettify(game.global.soldierHealthMax);
+	// let elemText = prettify(game.global.soldierHealthMax);
+	let elemText = prettify(maxDurability);
+
 	if (elem.innerHTML != elemText) elem.innerHTML = elemText;
 	updateGoodBar();
 	updateBadBar(cell);
@@ -12119,7 +12121,6 @@ function updateAllBattleNumbers(skipNum) {
 
 	if (game.global.usingShriek) swapClass('dmgColor', 'dmgColorRed', elem);
 }
-
 function toZalgo(string, seed, strength){
 	string = string.toString();
 	if (!strength) strength = 8;
@@ -12137,41 +12138,53 @@ function toZalgo(string, seed, strength){
 }
 
 function updateGoodBar() {
-    document.getElementById("goodGuyHealth").innerHTML = prettify(game.global.soldierHealth);
 	if (!game.options.menu.progressBars.enabled) return;
 	var barElem = document.getElementById("goodGuyBar");
 	if (game.global.universe == 2){
+
 		var maxLayers = (Fluffy.isRewardActive('shieldlayer'));
 		var layers = maxLayers - game.global.shieldLayersUsed;
 		var esElem = document.getElementById("energyShield");
 		var layerElem = document.getElementById("energyShieldLayer");
 		var layer2Elem = document.getElementById("energyShieldLayer2");
-		if (game.global.soldierEnergyShieldMax <= 0 || game.global.soldierHealth <= 0 || game.global.soldierEnergyShield <= 0){
+
+		// Durability = HP + Energy Shield + Energy Shield Layers
+		var maxDurability = game.global.soldierEnergyShieldMax * (maxLayers+1) + game.global.soldierHealthMax;
+		var currentDurability = game.global.soldierHealth + (layers+1) * game.global.soldierEnergyShieldMax + game.global.soldierEnergyShield
+
+		var maxHpPercent = game.global.soldierHealth / maxDurability * 100
+		var maxEsPercent = game.global.soldierEnergyShieldMax / maxDurability * 100
+		
+		if (game.global.soldierEnergyShieldMax <= 0 || game.global.soldierHealth <= 0 || game.global.soldierEnergyShield <= 0){ // Kayer 0, health
 			esElem.style.width = "0%";
 			layerElem.style.width = "0%";
 			layer2Elem.style.width = "0%";
 		}
-		else if (layers > 1){
-			esElem.style.width = "100%";
-			layerElem.style.width = "100%";
+		else if (layers > 1){ // Layer 2, green
+			// esElem.style.width = "100%";
+			// layerElem.style.width = "100%";
+			esElem.style.width = maxEsPercent + "%";
+			layerElem.style.width = maxEsPercent + "%";
 			var es = ((game.global.soldierEnergyShield / game.global.soldierEnergyShieldMax) * 100);
-			layer2Elem.style.width = es + "%";
+			layer2Elem.style.width = (maxEsPercent * es/100) + "%";
 		}
-		else if (layers > 0){
-			esElem.style.width = "100%";
+		else if (layers > 0){ // Layer 1, red
+			// esElem.style.width = "100%";
+			esElem.style.width = maxEsPercent + "%";
 			var es = ((game.global.soldierEnergyShield / game.global.soldierEnergyShieldMax) * 100);
-			layerElem.style.width = es + "%";
+			layerElem.style.width = (maxEsPercent * es/100) + "%";
 			layer2Elem.style.width = "0%";
 		}
-		else{
+		else{ // Layer 0, purple
 			var es = ((game.global.soldierEnergyShield / game.global.soldierEnergyShieldMax) * 100);
-			esElem.style.width = es + "%";
+			esElem.style.width = (maxEsPercent * es/100) + "%";
 			layerElem.style.width = "0%";
 			layer2Elem.style.width = "0%";
 		}
 	}
+    document.getElementById("goodGuyHealth").innerHTML = prettify(currentDurability);
     var percent = ((game.global.soldierHealth / game.global.soldierHealthMax) * 100);
-    barElem.style.width = percent + "%";
+    barElem.style.width = (maxHpPercent*percent/100) + "%";
 	swapClass("percentColor", getBarColorClass(percent), barElem);
 }
 
